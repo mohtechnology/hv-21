@@ -19,8 +19,20 @@ It detects vehicles from live video feeds, counts them, and adjusts traffic sign
 
 ## Usage  
 1. Clone this repo  
-2. Install requirements: `pip install -r requirements.txt`  
-3. Run the server: `python app.py`  
-4. Open browser at `http://127.0.0.1:5000/`  
+2. Create virtual environment:  
+   bash :
+   python -m venv venv
+   source venv/bin/activate   # On Linux/Mac  
+   venv\Scripts\activate      # On Windows
 
----
+3. Install requirements:
+   bash :
+   pip install -r requirements.txt
+
+4.	Run the server:
+   bash :
+   python app.py
+
+5.	Open browser at:
+   bash :
+   http://127.0.0.1:5000/
