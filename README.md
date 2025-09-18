@@ -36,3 +36,9 @@ It detects vehicles from live video feeds, counts them, and adjusts traffic sign
 5.	Open browser at:
    bash :
    http://127.0.0.1:5000/
+
+## Article
+
+Smart Traffic Management System
+https://sih-chinu.blogspot.com/2025/09/smart-traffic-management-system.html
+
