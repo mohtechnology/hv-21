@@ -190,6 +190,12 @@
             display: inline-block;
             animation: blink 1s infinite;
         }
+
+        @keyframes blink
+        {
+            0%, 50%, 100%{opacity: 1;}
+            25%, 75%{opacity: 0;}
+        } 
  
      </style>
 
@@ -220,5 +226,64 @@
     </div>
     </div>
     
+<script>
+
+const streams = [
+    {id: 'cam-1', name: 'junction 1', src: 'VIDEO'},
+    {id: 'cam-2', name: 'junction 2', src: 'VIDEO'},
+    {id: 'cam-3', name: 'junction 3', src: 'VIDEO'},
+    {id: 'cam-4', name: 'junction 4', src: 'VIDEO'},
+];
+
+let signals = [ 
+    {id: 's-1', name: 'Junction 1', src: 'green'},
+    {id: 's-2', name: 'Junction 2', src: 'red'},
+    {id: 's-3', name: 'Junction 3', src: 'yellow'},
+    {id: 's-4', name: 'Junction 4', src: 'green'}
+];
+
+function renderVideos()
+{
+    const grid = document.getElementById(videoGrid);
+    grid.innerHTML = "";
+    streams.forEach(s => {
+        const card = document.createElement('div');
+        card.className = "video-card";
+        card.innerHTML = `
+        <video autoplay loop muted>
+            <source src="${s.src}" type="VIDEO">
+        </video>
+        
+        <div class="live-badge">
+        <span class="dot"></span> LIVE
+        </div>
+
+        <div class = "label">${s.name}</div>
+        `;
+        grid.appendChild(card);
+    })
+
+}
+
+function renderSignals()
+{
+    const grid = document.getElementById(signalsGrid);                          
+    grid.innerHTML = "";
+    signals.forEach(sig => {
+        const card = document.createElement('div');
+        div.className =` signal ${sig.src}`;
+        div.innerHTML = `
+            <span>${sig.name}</span>
+            <span>${sig.color.toUpperCase()}</span>
+        `;
+        grid.appendChild(div);
+    });
+}
+
+renderVideos();
+renderSignals();
+
+</script>
+
 </body>
 </html>
