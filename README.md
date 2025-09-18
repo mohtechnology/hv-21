@@ -37,8 +37,15 @@ It detects vehicles from live video feeds, counts them, and adjusts traffic sign
    bash :
    http://127.0.0.1:5000/
 
-## Article
+## Article and Referance
 
 Smart Traffic Management System
 https://sih-chinu.blogspot.com/2025/09/smart-traffic-management-system.html
+
+Smart Traffic Management System – Code Explanation
+https://sih-chinu.blogspot.com/2025/09/smart-traffic-management-system-code.html
+
+Smart Traffic Management System ppt
+https://drive.google.com/file/d/1kFYCgxH7zF4DXcQZwxAwICo3zX4E_e7s/view?usp=sharing
+
 
