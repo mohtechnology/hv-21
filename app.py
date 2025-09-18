@@ -4,6 +4,78 @@ import threading
 import numpy as np
 from flask import Flask, render_template, Response, jsonify
 
+# Frame update thread
+def update_frames():
+    global frames, vehicle_counts, states, signal_index, signal_timer, last_update
+    while True:
+        new_frames = {}
+        counts = {}
+
+        # lane groups
+        if signal_index == 0:
+            green_cams, red_cams = [0, 1], [2, 3]
+        else:
+            green_cams, red_cams = [2, 3], [0, 1]
+
+        # process frames
+        for i, cap in caps.items():
+            if i in red_cams:
+                with lock:
+                    new_frames[i] = frames[i].copy()
+                counts[i] = vehicle_counts[i]
+                continue
+
+            ret, frame = cap.read()
+            if not ret:
+                cap.set(cv2.CAP_PROP_POS_FRAMES, 0)
+                ret, frame = cap.read()
+                if not ret:
+                    frame = np.zeros((480, 640, 3), dtype=np.uint8)
+
+            frame = cv2.resize(frame, (640, 480))
+            count = process_frame_simple(frame.copy())
+
+            counts[i] = count
+            new_frames[i] = frame
+
+        elapsed = int(time.time() - last_update)
+        remaining = max(0, signal_timer - elapsed)
+
+# assign states
+        for i in list(frames.keys()):
+            if i in green_cams:
+                states[i] = "YELLOW" if remaining <= 5 else "GREEN"
+            else:
+                states[i] = "RED"
+            target_frame = new_frames.get(i, frames[i]).copy()
+            target_frame = draw_traffic_light(target_frame, states[i])
+            new_frames[i] = target_frame
+
+        # ---- Adaptive Signal Timing ----
+        if elapsed >= signal_timer:
+            with lock:
+                green_total = sum(vehicle_counts[i] for i in green_cams)
+                red_total = sum(vehicle_counts[i] for i in red_cams)
+
+            if green_total > 0 and red_total > 0:
+                diff = abs(green_total - red_total) / min(green_total, red_total)
+                if diff >= 0.0125:  # 1.25% more traffic
+                    signal_timer = base_time + 15
+                else:
+                    signal_timer = base_time
+            else:
+                signal_timer = base_time
+
+            signal_index = 1 - signal_index
+            last_update = time.time()
+
+        with lock:
+            frames = new_frames
+            vehicle_counts.update(counts)
+
+        time.sleep(0.05)
+
+
 #Logging thread
 def log_vehicle_counts():
     while True:
