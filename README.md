@@ -23,4 +23,9 @@ It detects vehicles from live video feeds, counts them, and adjusts traffic sign
 3. Run the server: `python app.py`  
 4. Open browser at `http://127.0.0.1:5000/`  
 
+
+## Article
+
+Smart Traffic Management System
+https://sih-chinu.blogspot.com/2025/09/smart-traffic-management-system.html
 ---
